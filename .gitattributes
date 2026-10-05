@@ -1,0 +1,5 @@
+*.json linguist-detectable
+*.yml linguist-detectable
+*.md linguist-detectable
+.github/** linguist-vendored
+README.md linguist-documentation

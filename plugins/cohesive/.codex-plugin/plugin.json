@@ -1,0 +1,20 @@
+{
+  "name": "cohesive",
+  "version": "0.1.0",
+  "description": "A chat ends. The work doesn't. With Cohesive connected, what the agent makes lands in your workspace as a canvas, a file, or an automation that runs on its own schedule. Open it later, edit it, and pick up where you left off. Every call runs as you and sees only what you can.",
+  "author": {
+    "name": "Cohesive"
+  },
+  "license": "Apache-2.0",
+  "interface": {
+    "category": "Productivity",
+    "developerName": "Venchrz, Inc.",
+    "displayName": "Cohesive",
+    "shortDescription": "Canvases, files, and automations that outlast the chat.",
+    "longDescription": "A chat ends. The work doesn't. With Cohesive connected, what the agent makes lands in your workspace as a canvas, a file, or an automation that runs on its own schedule. Open it later, edit it, and pick up where you left off. Every call runs as you and sees only what you can.",
+    "privacyPolicyURL": "https://cohesive.ai/privacy-policy",
+    "termsOfServiceURL": "https://cohesive.ai/terms-of-service",
+    "supportURL": "mailto:support@cohesive.ai",
+    "websiteURL": "https://cohesive.ai"
+  }
+}

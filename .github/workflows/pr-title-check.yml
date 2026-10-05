@@ -1,0 +1,54 @@
+name: "PR Title Check"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pr-title-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v7
+        with:
+          # Check out the PR head, not the default merge ref — a PR with merge
+          # conflicts has no checkout-able merge ref and would fail here before
+          # the title is ever validated.
+          ref: ${{ github.event.pull_request.head.sha }}
+          # Materialize only the commitlint config. A PR can't drop a root
+          # package.json / .npmrc that would steer the npm install below, since
+          # those paths are never checked out.
+          sparse-checkout: .github/commitlint.yml
+          sparse-checkout-cone-mode: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+
+      - name: Install commitlint
+        # No package.json in this repo; install into ./node_modules where
+        # commitlint resolves them (including the extended config). The install is
+        # ~4s for 2 pinned deps — not worth caching, which on this PR-only
+        # workflow would be branch-scoped and cold on every new PR anyway.
+        # --ignore-scripts: defense in depth — never run dependency install
+        # lifecycle scripts (commitlint and its deps don't need them).
+        run: npm install --no-save --no-audit --no-fund --ignore-scripts @commitlint/cli@21 @commitlint/config-conventional@21
+
+      - name: Check PR Title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        # cosmiconfig doesn't search .github/, so point commitlint at the config
+        # explicitly. `extends` resolves from ./node_modules restored/installed above.
+        run: echo "$TITLE" | npx commitlint --config .github/commitlint.yml

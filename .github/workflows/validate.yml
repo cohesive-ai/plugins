@@ -1,0 +1,44 @@
+name: Validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Check Claude and Codex manifests agree
+        run: python3 scripts/check_manifests.py
+
+      - name: Validate the Claude marketplace and plugins
+        run: |
+          npx -y @anthropic-ai/claude-code@2.1.289 plugin validate .
+          for dir in plugins/*/; do
+            npx -y @anthropic-ai/claude-code@2.1.289 plugin validate "$dir"
+          done
+
+      # Codex has no validate command; installing each plugin parses its manifest.
+      - name: Install the Codex marketplace and plugins
+        run: |
+          export CODEX_HOME="$RUNNER_TEMP/codex"
+          mkdir -p "$CODEX_HOME"
+          marketplace=$(jq -r .name .agents/plugins/marketplace.json)
+          npx -y @openai/codex@0.160.0 plugin marketplace add "$GITHUB_WORKSPACE"
+          for dir in plugins/*/; do
+            npx -y @openai/codex@0.160.0 plugin add "$(basename "$dir")@$marketplace"
+          done

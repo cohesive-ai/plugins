@@ -1,0 +1,15 @@
+{
+  "name": "cohesive",
+  "owner": {
+    "name": "Cohesive",
+    "email": "support@cohesive.ai"
+  },
+  "description": "Cohesive plugins for Claude.",
+  "plugins": [
+    {
+      "name": "cohesive",
+      "source": "./plugins/cohesive",
+      "description": "Canvases, files, and automations that outlast the chat."
+    }
+  ]
+}

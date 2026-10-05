@@ -1,0 +1,68 @@
+# Conventional-commit rules for the PR title, which becomes the squash commit
+# subject on main (squash_merge_commit_title = PR_TITLE).
+#
+# We `extends` @commitlint/config-conventional for its parser (so the "!"
+# breaking-change marker is understood) and its baseline, but every rule the
+# preset enforces is ALSO restated below so the effective config is visible in
+# one place — no `--print-config` needed. Restating with explicit values also
+# means a preset version bump can't silently change these out from under us.
+#
+# Rule format: [level, applicability, value]
+#   level:         0 = off, 1 = warning, 2 = error
+#   applicability: always | never
+#   value:         rule-specific; omitted for rules that take none
+#
+# Annotations: "preset" = config-conventional default, restated for visibility;
+# "override" = we changed the preset value; "ours" = not in the preset. Every
+# uncommented rule is in effect (even the body/footer ones, which simply can't
+# fire on a single-line title). Commented rules sit at default (off); uncomment
+# and tweak the example value to enable.
+
+extends:
+  - "@commitlint/config-conventional"
+
+rules:
+  # ── Type — the "feat" in "feat(scope): subject" ──────────────────────
+  type-enum: [2, always, [feat, fix, chore, ci, docs, refactor, perf, test, build, revert, yeet]] # override: preset drops "yeet" and adds "style"
+  type-case: [2, always, lower-case] # preset
+  type-empty: [2, never] # preset
+  # type-min-length: [2, always, 2]
+  # type-max-length: [2, always, 10]
+
+  # ── Scope — the optional "(api)" in "feat(api): subject" ─────────────
+  scope-case: [2, always, kebab-case] # ours — preset leaves scope unchecked; kebab implies lower-case + hyphens, rejects internal spaces and snake_case
+  # scope-enum: [2, always, [api, db, ci, deps]] # restrict scope to a fixed set
+  # scope-empty: [2, never]                       # require a scope
+  # scope-min-length: [2, always, 2]
+  # scope-max-length: [2, always, 20]
+
+  # ── Subject — the text after the colon ───────────────────────────────
+  subject-empty: [2, never] # preset
+  subject-case: [2, never, [sentence-case, start-case, pascal-case, upper-case]] # preset
+  subject-full-stop: [2, never, "."] # preset
+  subject-min-length: [2, always, 3] # ours — inclusive floor; rejects 1-2 char placeholder subjects (x, ab)
+  # subject-max-length: [2, always, 50]
+
+  # ── Header — the whole title line "type(scope): subject" ─────────────
+  header-trim: [2, always] # preset
+  header-max-length: [2, always, 63] # override: preset is 100; 63 keeps the subject <=72 after " (#NNNNN)"
+  # header-case: [2, always, lower-case]
+  # header-full-stop: [2, never, "."]
+  # header-min-length: [2, always, 10]
+
+  # ── Body / footer — preset-enforced but NO-OP on a single-line title ──
+  body-leading-blank: [1, always] # preset (warning)
+  body-max-line-length: [2, always, 100] # preset
+  footer-leading-blank: [1, always] # preset (warning)
+  footer-max-line-length: [2, always, 100] # preset
+  # body-empty: [2, never]
+  # body-case: [2, always, lower-case]
+  # body-full-stop: [2, never, "."]
+  # body-min-length: [2, always, 0]
+  # body-max-length: [2, always, 100]
+  # footer-empty: [2, never]
+  # footer-min-length: [2, always, 0]
+  # footer-max-length: [2, always, 100]
+  # references-empty: [2, never]
+  # signed-off-by: [2, always, "Signed-off-by:"]
+  # trailer-exists: [2, always, "Signed-off-by:"]

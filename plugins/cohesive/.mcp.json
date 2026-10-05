@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "cohesive": {
+      "type": "http",
+      "url": "https://mcp.cohesive.ai/mcp"
+    }
+  }
+}

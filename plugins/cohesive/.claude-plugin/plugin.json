@@ -1,0 +1,19 @@
+{
+  "name": "cohesive",
+  "version": "0.1.0",
+  "description": "A chat ends. The work doesn't. With Cohesive connected, what the agent makes lands in your workspace as a canvas, a file, or an automation that runs on its own schedule. Open it later, edit it, and pick up where you left off. Every call runs as you and sees only what you can.",
+  "author": {
+    "name": "Cohesive",
+    "email": "support@cohesive.ai",
+    "url": "https://cohesive.ai"
+  },
+  "license": "Apache-2.0",
+  "homepage": "https://docs.cohesive.ai/mcp-server",
+  "repository": "https://github.com/cohesive-ai/plugins",
+  "keywords": [
+    "canvas",
+    "files",
+    "automations",
+    "workspace"
+  ]
+}
