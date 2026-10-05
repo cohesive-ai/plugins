@@ -1,0 +1,46 @@
+name: Eval
+
+on:
+  pull_request:
+    paths:
+      - plugins/*/skills/**
+      - plugins/*/evals/**
+      - .github/workflows/eval.yml
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Run plugin evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          for dir in plugins/*/; do
+            [ -d "$dir/evals" ] || continue
+            (cd "$dir" && npx -y @anthropic-ai/claude-code@2.1.289 plugin eval . \
+              --trust-plugin \
+              --model claude-sonnet-5 \
+              --no-publish \
+              --max-cost-usd 5 \
+              --report "$RUNNER_TEMP/reports/$(basename "$dir").html")
+          done
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: eval-reports
+          path: ${{ runner.temp }}/reports/
