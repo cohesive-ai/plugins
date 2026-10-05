@@ -1,6 +1,6 @@
 ---
 max_turns: 10
-allowed_tools: [Skill, mcp__*]
+allowed_tools: [Skill]
 tags: [smoke]
 ---
 
