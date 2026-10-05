@@ -33,6 +33,7 @@ jobs:
             [ -d "$dir/evals" ] || continue
             (cd "$dir" && npx -y @anthropic-ai/claude-code@2.1.289 plugin eval . \
               --trust-plugin \
+              --ablation none \
               --model claude-sonnet-5 \
               --no-publish \
               --max-cost-usd 5 \
