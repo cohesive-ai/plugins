@@ -9,6 +9,7 @@
   },
   "license": "Apache-2.0",
   "homepage": "https://docs.cohesive.ai/mcp-server",
+  "privacyPolicyUrl": "https://cohesive.ai/privacy-policy",
   "repository": "https://github.com/cohesive-ai/plugins",
   "keywords": [
     "canvas",
