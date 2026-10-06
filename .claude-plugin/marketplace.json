@@ -9,7 +9,7 @@
     {
       "name": "cohesive",
       "source": "./plugins/cohesive",
-      "description": "One place where your team and your agents do the work together."
+      "description": "Canvases, files, and automations that outlast the chat."
     }
   ]
 }

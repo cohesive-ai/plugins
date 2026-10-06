@@ -4,7 +4,7 @@ Plugins that connect AI agents to your [Cohesive](https://cohesive.ai) workspace
 
 | Plugin | What it does |
 |---|---|
-| [`cohesive`](plugins/cohesive) | One place where your team and your agents do the work together. Connects the [Cohesive MCP server](https://docs.cohesive.ai/mcp-server). |
+| [`cohesive`](plugins/cohesive) | Canvases, files, and automations that outlast the chat. Connects the [Cohesive MCP server](https://docs.cohesive.ai/mcp-server). |
 
 ## Install
 

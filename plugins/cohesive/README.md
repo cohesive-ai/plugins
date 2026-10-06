@@ -1,6 +1,6 @@
 # Cohesive
 
-[Cohesive](https://cohesive.ai) is one place where your team and your agents do the work together. With it connected, what the agent makes in this chat lands in your Cohesive workspace: a canvas your team can see and build on, a file in the Library, or an Automation that runs on a schedule.
+A chat ends. The work doesn't. With Cohesive connected, what the agent makes lands in your [Cohesive](https://cohesive.ai) workspace as a canvas, a file, or an automation that runs on its own schedule. Open it later, edit it, and pick up where you left off.
 
 ## What's inside
 
