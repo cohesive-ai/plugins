@@ -1,9 +1,9 @@
 {
   "tools": [
     {
-      "name": "cohesive_automation_create",
+      "name": "automation_create",
       "title": "automation create",
-      "description": "Create an automation. Creates an automation on exactly one of canvas or workspace. Instructions come from instructions.\n\nScheduling is one of three shapes:\n\ncron recurring, on that cadence, interpreted in tz (an IANA zone; the server default applies when omitted)\nrun_at one-off, a single run at that RFC 3339 instant and no cadence\nneither on-demand only: it runs when you trigger it with cohesive_automation_run\n\ncron and run_at are mutually exclusive. An invalid cron or time zone is rejected with the server's explanation. Exactly one of: canvas, workspace. At most one of: cron, run_at.",
+      "description": "Create an automation. Creates an automation on exactly one of canvas or workspace. Instructions come from instructions.\n\nScheduling is one of three shapes:\n\ncron recurring, on that cadence, interpreted in tz (an IANA zone; the server default applies when omitted)\nrun_at one-off, a single run at that RFC 3339 instant and no cadence\nneither on-demand only: it runs when triggered with automation_run\n\ncron and run_at are mutually exclusive. An invalid cron or time zone is rejected with the server's explanation. Exactly one of: canvas, workspace. At most one of: cron, run_at.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -51,7 +51,7 @@
       }
     },
     {
-      "name": "cohesive_automation_delete",
+      "name": "automation_delete",
       "title": "automation delete",
       "description": "Delete an automation. Deletes an automation permanently: its cadence stops and it can no longer be run. Past runs are chats and survive. Deleting an already-deleted automation also succeeds.",
       "inputSchema": {
@@ -76,9 +76,9 @@
       }
     },
     {
-      "name": "cohesive_automation_edit",
+      "name": "automation_edit",
       "title": "automation edit",
-      "description": "Edit an automation. Edits an automation. Only the properties you pass are sent; everything else is left unchanged. Setting cron \"\" clears the cadence entirely, making the automation on-demand only — to stop scheduled runs while keeping the cadence, use cohesive_automation_pause instead.\n\nrun_at schedules a single run at that RFC 3339 instant, which is also how you re-arm a one-off that has already fired or been paused. Setting run_at \"\" clears the pending run, exactly like pause.\n\nOnly the automation's owner can edit it; the server rejects anyone else.",
+      "description": "Edit an automation. Edits an automation. Only the properties passed are sent; everything else is left unchanged. Setting cron \"\" clears the cadence entirely, making the automation on-demand only — to stop scheduled runs while keeping the cadence, use automation_pause instead.\n\nrun_at schedules a single run at that RFC 3339 instant, which is also how a one-off that has already fired or been paused is re-armed. Setting run_at \"\" clears the pending run, exactly like pause.\n\nOnly the automation's owner can edit it; the server rejects anyone else.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -121,7 +121,7 @@
       }
     },
     {
-      "name": "cohesive_automation_get",
+      "name": "automation_get",
       "title": "automation get",
       "description": "Show one automation. Shows one automation in full, including its instructions. The state derives from the stored cadence: active (a next run is scheduled), paused (a cadence is stored but nothing is scheduled), or on demand (no cadence). When the scheduler skipped the most recent firing, the reason and time are shown.",
       "inputSchema": {
@@ -146,9 +146,9 @@
       }
     },
     {
-      "name": "cohesive_automation_list",
+      "name": "automation_list",
       "title": "automation list",
-      "description": "List automations. Lists automations. With no filter, lists your own automations across every canvas and workspace. With canvas or workspace, lists every owner's automations on that one resource (ones you don't own are read-only). At most one of: canvas, workspace.",
+      "description": "List automations. Lists automations. With no filter, lists the signed-in account's own automations across every canvas and workspace. With canvas or workspace, lists every owner's automations on that one resource (ones the account does not own are read-only). At most one of: canvas, workspace.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -172,9 +172,9 @@
       }
     },
     {
-      "name": "cohesive_automation_pause",
+      "name": "automation_pause",
       "title": "automation pause",
-      "description": "Pause an automation's scheduled runs. Pauses an automation: the pending run is cancelled while the cron cadence stays stored, so cohesive_automation_resume picks the schedule back up without re-entering it.\n\nOn a one-off (a run-at instant, no cron cadence) there is nothing to resume from: pausing cancels the single pending run outright. Re-arm it with cohesive_automation_edit run_at.",
+      "description": "Pause an automation's scheduled runs. Pauses an automation: the pending run is cancelled while the cron cadence stays stored, so automation_resume picks the schedule back up without re-entering it.\n\nOn a one-off (a run-at instant, no cron cadence) there is nothing to resume from: pausing cancels the single pending run outright. Re-arm it with automation_edit run_at.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -197,9 +197,9 @@
       }
     },
     {
-      "name": "cohesive_automation_resume",
+      "name": "automation_resume",
       "title": "automation resume",
-      "description": "Resume a paused automation. Resumes a paused automation by re-submitting its stored cron cadence, which makes the platform compute the next run time.\n\nResuming needs a cadence to recompute from, so it does not apply to a one-off or an on-demand automation — schedule those with cohesive_automation_edit run_at or cohesive_automation_edit cron.",
+      "description": "Resume a paused automation. Resumes a paused automation by re-submitting its stored cron cadence, which makes the platform compute the next run time.\n\nResuming needs a cadence to recompute from, so it does not apply to a one-off or an on-demand automation — schedule those with automation_edit run_at or automation_edit cron.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -222,7 +222,7 @@
       }
     },
     {
-      "name": "cohesive_automation_run",
+      "name": "automation_run",
       "title": "automation run",
       "description": "Run an automation now. Starts a run immediately, outside any cadence. The run executes asynchronously in a new chat (flow session) — the session id comes back right away, without waiting for the run to finish.\n\nThe scheduler's fire-time gates still apply: an archived or missing target canvas or workspace rejects the run, which exits 1 (error) with the platform's explanation; a billing denial exits 6 (payment required).",
       "inputSchema": {
@@ -247,9 +247,9 @@
       }
     },
     {
-      "name": "cohesive_automation_runs",
+      "name": "automation_runs",
       "title": "automation runs",
-      "description": "List an automation's runs. Lists an automation's runs, newest first — scheduled firings and cohesive_automation_run triggers alike. Each run is a chat (flow session); read one in full with cohesive_chat_get. Page with before using the previous page's pagination next_ts. Owner-only.",
+      "description": "List an automation's runs. Lists an automation's runs, newest first — scheduled firings and automation_run triggers alike. Each run is a chat (flow session); read one in full with chat_get. Page with before using the previous page's pagination next_ts. Owner-only.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -280,9 +280,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_archive",
+      "name": "canvas_archive",
       "title": "canvas archive",
-      "description": "Move a canvas to the trash. Archives a canvas (soft delete), cascading to the chats and files that live on it. Everything is restorable with cohesive_canvas_restore — nothing is destroyed.",
+      "description": "Move a canvas to the trash. Archives a canvas (soft delete), cascading to the chats and files that live on it. Everything is restorable with canvas_restore — nothing is destroyed.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -305,9 +305,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_capture",
+      "name": "canvas_capture",
       "title": "canvas capture",
-      "description": "Capture a canvas as an image. Renders the canvas the way the app draws it and returns the image as webp.\n\nBy default the whole canvas is fit into the frame. To see a region the way a user would, pass bounds (a rectangle in canvas coordinates, \"x,y,width,height\") or node_ids; both take the coordinates and ids that cohesive_canvas_view returns.\n\nThe image carries the canvas ground and grid by default. background solid drops the grid, and background transparent leaves the ground out entirely so the webp can be composited onto something else.\n\nThe render runs server-side in a headless browser and takes tens of seconds. At most one of: bounds, node_ids. The rendered webp is returned as an image block.",
+      "description": "Render a canvas to a webp image. It lets an agent see the canvas as drawn: check layout, overlaps, or how an edit came out. To show a canvas to a person, use canvas_view.\n\nThe whole canvas is fit to the frame by default. To see a region as a person would, pass bounds (a rectangle in canvas coordinates, \"x,y,width,height\") or node_ids; both take the coordinates and ids that canvas_view returns.\n\nThe image carries the canvas ground and grid. background solid drops the grid; background transparent drops the ground too, for compositing. The render runs server-side and takes tens of seconds. At most one of: bounds, node_ids. The rendered webp is returned as an image block.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -360,9 +360,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_create",
+      "name": "canvas_create",
       "title": "canvas create",
-      "description": "Create an empty canvas in a workspace. Creates a canvas. The workspace is the canvas's home; folder additionally files it into an existing left-rail folder there, by folder ID or by name (matched against the workspace's canvas folders).\n\nCanvases are not files: they live in workspaces and folders, not under file paths. Rename with cohesive_canvas_rename, relocate with cohesive_canvas_move, trash with cohesive_canvas_archive. Put content on it with the cohesive_canvas_node_add_* tools and cohesive_canvas_edge_add.",
+      "description": "Create an empty canvas in a workspace. Creates a canvas. The workspace is the canvas's home; folder additionally files it into an existing left-rail folder there, by folder ID or by name (matched against the workspace's canvas folders).\n\nCanvases are not files: they live in workspaces and folders, not under file paths. Rename with canvas_rename, relocate with canvas_move, trash with canvas_archive. Put content on it with the canvas_node_add_* tools and canvas_edge_add.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -398,9 +398,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_edge_add",
+      "name": "canvas_edge_add",
       "title": "canvas edge add",
-      "description": "Add an edge between two nodes. Connects two nodes. source and target are NODE ids from cohesive_canvas_view — never a file or entity id; for placed files and media the node id differs from the file id, and an edge to a non-node id is skipped. label puts short text at the midpoint (\"depends on\"). Handles (top-source, right-source, bottom-source, left-source) pin which side the edge leaves and enters; omit them to auto-route, set them for feedback loops and multi-edge pairs.",
+      "description": "Add an edge between two nodes. Connects two nodes. source and target are NODE ids from canvas_view — never a file or entity id; for placed files and media the node id differs from the file id, and an edge to a non-node id is skipped. label puts short text at the midpoint (\"depends on\"). Handles (top-source, right-source, bottom-source, left-source) pin which side the edge leaves and enters; omit them to auto-route, set them for feedback loops and multi-edge pairs.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -469,7 +469,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_edge_delete",
+      "name": "canvas_edge_delete",
       "title": "canvas edge delete",
       "description": "Delete edges.",
       "inputSchema": {
@@ -503,7 +503,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_edge_update",
+      "name": "canvas_edge_update",
       "title": "canvas edge update",
       "description": "Update an edge's label or style.",
       "inputSchema": {
@@ -569,7 +569,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_edit",
+      "name": "canvas_edit",
       "title": "canvas edit",
       "description": "Apply a batch canvas edit (the raw canvas-edit payload). Applies one canvas-edit call from raw JSON — the escape hatch for building a whole diagram, or several changes, in a single atomic round-trip. The payload is the canvas-edit action's input, verbatim:\n\n{\"nodes\": [...], \"delete_node_ids\": [...], \"edges\": [...], \"delete_edge_ids\": [...]}\n\nEach nodes[] entry is {entity | entity_id | id, position, width, height}; entity is one of canvas_text_note, canvas_text_label, canvas_shape, canvas_connector, or a generic remote record. payload is the canvas-edit object: {nodes, delete_node_ids, edges, delete_edge_ids}.",
       "inputSchema": {
@@ -599,9 +599,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_get",
+      "name": "canvas_get",
       "title": "canvas get",
-      "description": "Show one canvas. view_url is the public URL to show a person; dashboard_url opens the canvas in the app for a signed-in user.",
+      "description": "Return one canvas's details. view_url is the public URL to show a person; dashboard_url opens the canvas in the app for a signed-in user.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -624,9 +624,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_list",
+      "name": "canvas_list",
       "title": "canvas list",
-      "description": "List the canvases you can access. Lists every canvas you can access, most recently modified first. With workspace, lists only that workspace's canvases (unpaginated — limit does not apply).",
+      "description": "List accessible canvases. Lists every canvas the signed-in account can access, most recently modified first. With workspace, lists only that workspace's canvases (unpaginated — limit does not apply).",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -650,9 +650,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_move",
+      "name": "canvas_move",
       "title": "canvas move",
-      "description": "Move a canvas to another workspace or folder. Relocates a canvas in the left rail: workspace re-homes it to another workspace, folder files it into a folder (by ID or name, within its workspace), root moves it back to its workspace's top level. Folder and workspace moves compose: with both, the canvas moves to the workspace first and is then filed into that workspace's folder.\n\nThis moves the canvas object only; files ON the canvas stay with it. File records move separately with cohesive_file_move. At most one of: folder, root.",
+      "description": "Move a canvas to another workspace or folder. Relocates a canvas in the left rail: workspace re-homes it to another workspace, folder files it into a folder (by ID or name, within its workspace), root moves it back to its workspace's top level. Folder and workspace moves compose: with both, the canvas moves to the workspace first and is then filed into that workspace's folder.\n\nThis moves the canvas object only; files ON the canvas stay with it. File records move separately with file_move. At most one of: folder, root.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -687,9 +687,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_block",
+      "name": "canvas_node_add_block",
       "title": "canvas node add-block",
-      "description": "Create an HTML file and place it as a live block. Creates a text/html file record IN the canvas and places it as a live block — a canvas-native component that renders your HTML at exactly the box you give it. This is the only tool that makes a block; uploading an HTML file and placing it with cohesive_canvas_node_add_entity yields a plain file card instead.\n\nA block renders at exactly width x height (multiples of 16, minimum 128 per side), so author the HTML to fill that box.\n\nThe HTML comes from content.",
+      "description": "Create an HTML file and place it as a live block. Creates a text/html file record IN the canvas and places it as a live block — a canvas-native component that renders its HTML at exactly the box it is given. This is the only tool that makes a block; uploading an HTML file and placing it with canvas_node_add_entity yields a plain file card instead.\n\nA block renders at exactly width x height (multiples of 16, minimum 128 per side), so author the HTML to fill that box.\n\nThe HTML comes from content. Change its content later through the file id (the file_* tools) — the block re-renders on its own; move or resize through the node id.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -745,9 +745,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_connector",
+      "name": "canvas_node_add_connector",
       "title": "canvas node add-connector",
-      "description": "Add a free-floating connector line between two points. Adds a connector: a line or arrow between two absolute canvas coordinates, attached to nothing. To connect two NODES so the link follows them, use cohesive_canvas_edge_add instead — connectors are for freehand arrows and diagram lines between positions.\n\nConnectors take no position or size; their geometry is start and end. arrow_mode none|end|both presets the arrowheads; curve smooth, straight, or step (default, right-angle).",
+      "description": "Add a free-floating connector line between two points. Adds a connector: a line or arrow between two absolute canvas coordinates, attached to nothing. To connect two NODES so the link follows them, use canvas_edge_add instead — connectors are for freehand arrows and diagram lines between positions.\n\nConnectors take no position or size; their geometry is start and end. arrow_mode none|end|both presets the arrowheads; curve smooth, straight, or step (default, right-angle).",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -804,9 +804,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_document",
+      "name": "canvas_node_add_document",
       "title": "canvas node add-document",
-      "description": "Create an HTML or markdown file and place it as a page card. Creates a file record IN the canvas — text/html or markdown, decided by the destination name's extension — and places it as a standard page card that opens in the detail view. For an HTML component that should render live in a fixed box, use cohesive_canvas_node_add_block instead.\n\nCards default to the portrait page (320x416); explicit width/height override it, which is how a deck-style HTML document goes landscape.",
+      "description": "Create an HTML or markdown file and place it as a page card. Creates a file record IN the canvas — text/html or markdown, decided by the destination name's extension — and places it as a standard page card that opens in the detail view. For an HTML component that should render live in a fixed box, use canvas_node_add_block instead.\n\nCards default to the portrait page (320x416); explicit width/height override it, which is how a deck-style HTML document goes landscape.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -850,9 +850,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_entity",
+      "name": "canvas_node_add_entity",
       "title": "canvas node add-entity",
-      "description": "Place an entity card: a platform file or a record from another platform. Places an entity card. Two modes:\n\nentity_id places an entity the platform already knows by its data id — this is how a file record is placed on a canvas as a card (pass the file record's ID; for a file from another workspace, add it to this canvas first with cohesive_file_reference).\n\nplatform with id places a generic card describing a record that lives on another platform (slack, notion, github, ...). Nothing is fetched from that platform: the card is built from the fields you pass, and the id is stored VERBATIM so repeat placements deduplicate.",
+      "description": "Place an entity card: a platform file or a record from another platform. Places an entity card. Two modes:\n\nentity_id places an entity the platform already knows by its data id — this is how a file record is placed on a canvas as a card (pass the file record's ID; for a file from another workspace, add it to this canvas first with file_reference).\n\nplatform with id places a generic card describing a record that lives on another platform (slack, notion, github, ...). Nothing is fetched from that platform: the card is built from the fields passed, and the id is stored VERBATIM so repeat placements deduplicate.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -873,7 +873,7 @@
             "type": "number"
           },
           "id": {
-            "description": "the record's stable id on that platform, copied verbatim: it labels the card and deduplicates repeat placements, and is never fetched. The node this places gets an id of its own — read that back from cohesive_canvas_view before drawing edges to it",
+            "description": "the record's stable id on that platform, copied verbatim: it labels the card and deduplicates repeat placements, and is never fetched. The node this places gets an id of its own — read that back from canvas_view before drawing edges to it",
             "type": "string"
           },
           "image_url": {
@@ -924,7 +924,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_label",
+      "name": "canvas_node_add_label",
       "title": "canvas node add-label",
       "description": "Add a text label (a single line of free-standing text). Adds a text label: one line of text directly on the canvas — headings, captions, annotations. Font sizes are 16px, 20px (default), 32px, 48px; keep content to roughly 8 words at 16-20px, 5 at 32px, 3 at 48px; a label auto-sizes to its text.\n\nOmit color for the theme-adaptive default (this is usually right). Colors are the spectrum palette: orange, yellow, green, blue, violet, mulberry, brown, indigo, olive.",
       "inputSchema": {
@@ -947,7 +947,7 @@
             "type": "string"
           },
           "font": {
-            "description": "font family (the same four as cohesive_canvas_node_add_note)",
+            "description": "font family (the same four as canvas_node_add_note)",
             "type": "string"
           },
           "font_size": {
@@ -987,7 +987,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_note",
+      "name": "canvas_node_add_note",
       "title": "canvas node add-note",
       "description": "Add a text note (a sticky with a title and markdown body). Adds a text note: a titled sticky holding markdown content. Notes default to 288x288; use 192 height for short notes and 384 for long ones. The title should be 2-6 words.\n\nColors are the sticky palette: apricot, butter (default), meadow, sea, orchid, rose, clay, mist, oat.",
       "inputSchema": {
@@ -1051,7 +1051,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_add_shape",
+      "name": "canvas_node_add_shape",
       "title": "canvas node add-shape",
       "description": "Add a shape (rectangle, circle, diamond, triangle, pentagon, cylinder). Adds a shape, optionally with centered label text (content). Shapes default to 144x144; 192x96 works well for sequence-diagram boxes.\n\nfill takes the sticky palette (apricot, butter, meadow, sea, orchid, rose, clay, mist, oat); stroke takes the spectrum palette and defaults to the stroke paired with the fill. no_fill draws a stroke-only outline.",
       "inputSchema": {
@@ -1136,7 +1136,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_delete",
+      "name": "canvas_node_delete",
       "title": "canvas node delete",
       "description": "Delete nodes from a canvas. Deletes nodes by node id. Deleting a file's node removes the card from the canvas; whether the file itself survives follows the platform's file rules (a reference's deletion removes only the reference).",
       "inputSchema": {
@@ -1170,9 +1170,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_get",
+      "name": "canvas_node_get",
       "title": "canvas node get",
-      "description": "Read nodes in full. Fetches the complete stored content of specific nodes — the full text of notes that cohesive_canvas_view truncates, complete entity data, exact geometry.\n\nIf a node's content shows it is a file record (entity base \"file_record\"), the node holds only file METADATA: the file's content is a different id and a different tool — read it with cohesive_file_read file_record_id (metadata with cohesive_file_get file_record_id). Passing a file id here fails and says so.",
+      "description": "Read nodes in full. Fetches the complete stored content of specific nodes — the full text of notes that canvas_view truncates, complete entity data, exact geometry.\n\nIf a node's content shows it is a file record (entity base \"file_record\"), the node holds only file METADATA: the file's content is a different id and a different tool — read it with file_read file_record_id (metadata with file_get file_record_id). Passing a file id here fails and says so.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1204,7 +1204,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_move",
+      "name": "canvas_node_move",
       "title": "canvas node move",
       "description": "Move a node to a new position. Repositions one node by its node id (top-left corner, canvas coordinates, 16px lattice). Works for every node type, including files and media. Content is untouched.",
       "inputSchema": {
@@ -1239,7 +1239,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_resize",
+      "name": "canvas_node_resize",
       "title": "canvas node resize",
       "description": "Resize a node. Resizes one node by its node id (dimensions in canvas units, 16px lattice). position moves it in the same call.",
       "inputSchema": {
@@ -1281,9 +1281,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_node_update",
+      "name": "canvas_node_update",
       "title": "canvas node update",
-      "description": "Update a node's content or style. Updates a canvas-native node in place: pass only the properties to change; the rest of the node is untouched (the platform merges partially). The node's current type decides which properties apply — title/content/color for notes and labels, fill/stroke/shape/content for shapes, start/end and the stroke properties for connectors.\n\nOnly canvas-native nodes (notes, labels, shapes, connectors) update this way. A file's content is edited through the file itself, and an HTML block through the cohesive_file_* tools on its file id — the canvas card re-renders on its own.",
+      "description": "Update a node's content or style. Updates a canvas-native node in place: pass only the properties to change; the rest of the node is untouched (the platform merges partially). The node's current type decides which properties apply — title/content/color for notes and labels, fill/stroke/shape/content for shapes, start/end and the stroke properties for connectors.\n\nOnly canvas-native nodes (notes, labels, shapes, connectors) update this way. A file's content is edited through the file itself, and an HTML block through the file_* tools on its file id — the canvas card re-renders on its own.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1363,9 +1363,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_publish",
+      "name": "canvas_publish",
       "title": "canvas publish",
-      "description": "Publish a canvas to a public URL. Publishes a canvas as a read-only public snapshot — anyone with the URL can view it, no Cohesive account needed. The URL comes back as view_url and is the one to give a person; dashboard_url opens the canvas in the app for a signed-in user. Revoke with cohesive_canvas_unpublish.\n\nPublishing runs server-side and takes a while (it rebuilds the snapshot and the social card), so this waits for it to finish and reports the outcome. The snapshot is a point-in-time copy: later canvas edits are not published until you publish again. view_url is the public URL to show a person; dashboard_url opens the canvas in the app for a signed-in user.",
+      "description": "Publish a canvas to a public URL. Publishes a canvas as a read-only public snapshot — anyone with the URL can view it, no Cohesive account needed. The URL comes back as view_url and is the one to give a person; dashboard_url opens the canvas in the app for a signed-in user. Revoke with canvas_unpublish.\n\nPublishing runs server-side and takes a while (it rebuilds the snapshot and the social card), so this waits for it to finish and reports the outcome. The snapshot is a point-in-time copy: later canvas edits are not published until the canvas is published again. view_url is the public URL to show a person; dashboard_url opens the canvas in the app for a signed-in user.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1388,9 +1388,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_raw",
+      "name": "canvas_raw",
       "title": "canvas raw",
-      "description": "Return a canvas's full content document. Returns the canvas's full content document as {nodes, edges}, each keyed by id. Node and edge shapes follow the canvas frontend's document model and are not a stable contract.\n\nFull documents can be very large — survey with cohesive_canvas_view first, then use node_ids here to fetch specific nodes in full.",
+      "description": "Return a canvas's full content document. Returns the canvas's full content document as {nodes, edges}, each keyed by id. Node and edge shapes follow the canvas frontend's document model and are not a stable contract.\n\nFull documents can be very large — survey with canvas_view first, then use node_ids here to fetch specific nodes in full.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1420,7 +1420,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_rename",
+      "name": "canvas_rename",
       "title": "canvas rename",
       "description": "Rename a canvas.",
       "inputSchema": {
@@ -1450,7 +1450,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_restore",
+      "name": "canvas_restore",
       "title": "canvas restore",
       "description": "Restore an archived canvas.",
       "inputSchema": {
@@ -1475,7 +1475,7 @@
       }
     },
     {
-      "name": "cohesive_canvas_unpublish",
+      "name": "canvas_unpublish",
       "title": "canvas unpublish",
       "description": "Revoke a canvas's public URL. Takes a published canvas offline: the public URL stops serving, and a publish still in flight is cancelled. The canvas itself is untouched.",
       "inputSchema": {
@@ -1500,9 +1500,9 @@
       }
     },
     {
-      "name": "cohesive_canvas_view",
+      "name": "canvas_view",
       "title": "canvas view",
-      "description": "Survey a canvas's nodes and edges. Renders the canvas's compact projection — identity, geometry, and semantic content with styling stripped and free text truncated — as node and edge tables. Use cohesive_canvas_raw node_ids to fetch specific nodes in full.",
+      "description": "Show a canvas inline. Hosts that support MCP Apps render an interactive board in the conversation; the result is also the canvas's compact projection — identity, geometry, and semantic content with styling stripped and free text truncated — as node and edge tables. Use canvas_raw node_ids to fetch specific nodes in full.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1529,10 +1529,16 @@
         "destructiveHint": false,
         "idempotentHint": true,
         "openWorldHint": false
+      },
+      "_meta": {
+        "ui": {
+          "resourceUri": "ui://cohesive/canvas/195bb01a9b83.html"
+        },
+        "ui/resourceUri": "ui://cohesive/canvas/195bb01a9b83.html"
       }
     },
     {
-      "name": "cohesive_chat_get",
+      "name": "chat_get",
       "title": "chat get",
       "description": "Show one chat.",
       "inputSchema": {
@@ -1557,9 +1563,9 @@
       }
     },
     {
-      "name": "cohesive_chat_list",
+      "name": "chat_list",
       "title": "chat list",
-      "description": "List your chats. Lists your live (non-archived) chats, newest first. Page with before using the previous page's pagination next_ts.",
+      "description": "List the signed-in account's chats. Lists the signed-in account's live (non-archived) chats, newest first. Page with before using the previous page's pagination next_ts.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1596,7 +1602,7 @@
       }
     },
     {
-      "name": "cohesive_file_copy",
+      "name": "file_copy",
       "title": "file copy",
       "description": "Copy a file record to a new parent or path. Copies a file record to a new destination; the source is untouched. The path rule matches upload. overwrite replaces the contents of an existing record at the destination path, preserving its ID and share state. Exactly one of: workspace, canvas, chat.",
       "inputSchema": {
@@ -1641,9 +1647,9 @@
       }
     },
     {
-      "name": "cohesive_file_delete",
+      "name": "file_delete",
       "title": "file delete",
-      "description": "Delete a file record. Soft-deletes a file record. Recently deleted records can be restored with cohesive_file_recover.",
+      "description": "Delete a file record. Soft-deletes a file record. Recently deleted records can be restored with file_recover.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1666,9 +1672,9 @@
       }
     },
     {
-      "name": "cohesive_file_get",
+      "name": "file_get",
       "title": "file get",
-      "description": "Show one file record. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user. download_url is a signed link to the bytes, valid until download_url_expires_at: the way to move a file anywhere, or to read one cohesive_file_read cannot return inline.",
+      "description": "Show one file record. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user. download_url is a signed link to the bytes, valid until download_url_expires_at: the way to move a file anywhere, or to read one file_read cannot return inline.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1691,9 +1697,9 @@
       }
     },
     {
-      "name": "cohesive_file_list",
+      "name": "file_list",
       "title": "file list",
-      "description": "List file records under one parent resource, recent files, or deleted files. Lists file records scoped to exactly one parent — a workspace, a canvas, or a chat (flow session) — or one of two cross-workspace views (newest first; page with before): recent, your recently modified Library files, and deleted, recently deleted files still restorable with cohesive_file_recover. Exactly one of: workspace, canvas, chat, recent, deleted. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user.",
+      "description": "List file records under one parent resource, recent files, or deleted files. Lists file records scoped to exactly one parent — a workspace, a canvas, or a chat (flow session) — or one of two cross-workspace views (newest first; page with before): recent, the signed-in account's recently modified Library files, and deleted, recently deleted files still restorable with file_recover. Exactly one of: workspace, canvas, chat, recent, deleted. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1718,7 +1724,7 @@
             "type": "integer"
           },
           "recent": {
-            "description": "list your recently modified Library files",
+            "description": "list the signed-in account's recently modified Library files",
             "type": "boolean"
           },
           "workspace": {
@@ -1737,9 +1743,9 @@
       }
     },
     {
-      "name": "cohesive_file_mkdir",
+      "name": "file_mkdir",
       "title": "file mkdir",
-      "description": "Create an empty file-system directory. Creates a folder-kind file record — a file-system directory — under exactly one parent: a workspace, a canvas, or a chat (flow session). Directories normally come into being when a file path names them; mkdir exists so an empty directory can be prepared before files move in. Organizing files into folders is this plus cohesive_file_move path.\n\nNot to be confused with the left-rail folders that organize canvases and chats themselves — those are a separate concept, and these directories only ever group file records. Exactly one of: workspace, canvas, chat.",
+      "description": "Create an empty file-system directory. Creates a folder-kind file record — a file-system directory — under exactly one parent: a workspace, a canvas, or a chat (flow session). Directories normally come into being when a file path names them; mkdir exists so an empty directory can be prepared before files move in. Organizing files into folders is this plus file_move path.\n\nNot to be confused with the left-rail folders that organize canvases and chats themselves — those are a separate concept, and these directories only ever group file records. Exactly one of: workspace, canvas, chat.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1774,7 +1780,7 @@
       }
     },
     {
-      "name": "cohesive_file_move",
+      "name": "file_move",
       "title": "file move",
       "description": "Move a file record to a new parent or path. Moves a file record to a new destination. The path rule matches upload: no extension or a trailing / means a directory (the current file name is kept); an extensioned path renames. Omitting path keeps the name at the destination root. Exactly one of: workspace, canvas, chat.",
       "inputSchema": {
@@ -1815,7 +1821,7 @@
       }
     },
     {
-      "name": "cohesive_file_promote",
+      "name": "file_promote",
       "title": "file promote",
       "description": "Move a canvas or chat file into the workspace Library. Moves a canvas or chat file into the workspace Library — what dragging it to the Library does in the app. The file keeps its ID, and a reference (a link record) is left behind in its source container in the same action, so the canvas or chat still shows the file, now pointing at its Library home.\n\nworkspace defaults to the source container's workspace, and parent_path places the file under a Library directory (default: the Library root).",
       "inputSchema": {
@@ -1848,9 +1854,9 @@
       }
     },
     {
-      "name": "cohesive_file_publish",
+      "name": "file_publish",
       "title": "file publish",
-      "description": "Publish a file record to a public URL. Makes a file record publicly readable — anyone with the URL can view it, no Cohesive account needed. Two URLs come back. view_url is the viewer page: the one to give a person. raw_url serves the file's bytes: use it to fetch the content, embed the file in another file, or hand it to another service — never as the URL you show someone. Revoke with cohesive_file_unpublish. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user.",
+      "description": "Publish a file record to a public URL. Makes a file record publicly readable — anyone with the URL can view it, no Cohesive account needed. Two URLs come back. view_url is the viewer page: the one to give a person. raw_url serves the file's bytes: use it to fetch the content, embed the file in another file, or hand it to another service — never as the URL to show someone. Revoke with file_unpublish. view_url is the URL to show a person; raw_url serves the bytes for fetching or embedding and is not for people; dashboard_url opens the record in the app for a signed-in user.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1873,9 +1879,9 @@
       }
     },
     {
-      "name": "cohesive_file_read",
+      "name": "file_read",
       "title": "file read",
-      "description": "Read a file record's content. Returns a file record's bytes. For reading, not transfer: text comes back inline up to the output cap and an image up to 3 MiB as an image block; anything else is refused. To move a file anywhere, or read one that does not fit, use cohesive_file_get and hand its download_url to whatever needs the bytes.",
+      "description": "Read a file record's content. Returns a file record's bytes. For reading, not transfer: text comes back inline up to the output cap and an image up to 3 MiB as an image block; anything else is refused. To move a file anywhere, or read one that does not fit, use file_get and hand its download_url to whatever needs the bytes.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1898,7 +1904,7 @@
       }
     },
     {
-      "name": "cohesive_file_recover",
+      "name": "file_recover",
       "title": "file recover",
       "description": "Restore a recently deleted file record.",
       "inputSchema": {
@@ -1923,9 +1929,9 @@
       }
     },
     {
-      "name": "cohesive_file_reference",
+      "name": "file_reference",
       "title": "file reference",
-      "description": "Place a reference to a file on a canvas or in a chat. Creates a reference to a file: the reference is its own file record (kind \"link\") living in the canvas or chat and pointing at the workspace file. The file itself does not move — this is how a Library file, including one from another workspace, is placed onto a canvas without copying it. Copy instead (cohesive_file_copy) only when you want a separate file with a separate history.\n\nReferencing the same file in the same container twice is a no-op; the output says whether the reference already existed. Exactly one of: canvas, chat.",
+      "description": "Place a reference to a file on a canvas or in a chat. Creates a reference to a file: the reference is its own file record (kind \"link\") living in the canvas or chat and pointing at the workspace file. The file itself does not move — this is how a Library file, including one from another workspace, is placed onto a canvas without copying it. Copy instead (file_copy) only when a separate file with a separate history is wanted.\n\nReferencing the same file in the same container twice is a no-op; the result says whether the reference already existed. Exactly one of: canvas, chat.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1956,9 +1962,9 @@
       }
     },
     {
-      "name": "cohesive_file_references",
+      "name": "file_references",
       "title": "file references",
-      "description": "List the references pointing at a file. Lists the link records that reference this file from canvases and chats. The listing is filtered to the containers you can view.",
+      "description": "List the references pointing at a file. Lists the link records that reference this file from canvases and chats. The listing is filtered to the containers the signed-in account can view.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -1981,7 +1987,7 @@
       }
     },
     {
-      "name": "cohesive_file_unpublish",
+      "name": "file_unpublish",
       "title": "file unpublish",
       "description": "Revoke a file record's public URL.",
       "inputSchema": {
@@ -2006,7 +2012,7 @@
       }
     },
     {
-      "name": "cohesive_file_upload",
+      "name": "file_upload",
       "title": "file upload",
       "description": "Upload a file to a workspace, canvas, or chat. Uploads a file record under exactly one parent: a workspace, a canvas, or a chat (flow session). Pass the file's text as content, or a public URL as from_url for the server to fetch and store the bytes.\n\npath is the destination and names the file exactly, extension included; a directory path has no file name to complete it here. It is required with content, and with from_url it can be omitted to let the server name the file from the URL.\n\nProcessing (previews, text extraction, summary) continues server-side after upload; wait blocks until the record reaches status \"processed\". Exactly one of: workspace, canvas, chat. Exactly one of: content, from_url. There is no base64 property: never encode file bytes into a call.",
       "inputSchema": {
@@ -2021,7 +2027,7 @@
             "type": "string"
           },
           "content": {
-            "description": "the file's text, when you are its author; for existing bytes use from_url",
+            "description": "the file's text, when authoring it; for existing bytes use from_url",
             "type": "string"
           },
           "force": {
@@ -2060,48 +2066,9 @@
       }
     },
     {
-      "name": "cohesive_help",
-      "title": "help",
-      "description": "Return the full help for one tool, e.g. \"cohesive_canvas_node_add_note\", for a family of them, e.g. \"cohesive_canvas_node_*\", or \"\" for an overview of this server's whole surface. Use it to learn the arguments and rules behind a tool's description, which is trimmed to a budget.",
-      "inputSchema": {
-        "additionalProperties": false,
-        "properties": {
-          "tool": {
-            "description": "the tool to describe, e.g. \"cohesive_canvas_node_add_note\", or a family, e.g. \"cohesive_canvas_node_*\", for the tools under it; omit or \"\" for an overview of the whole surface",
-            "type": "string"
-          }
-        },
-        "type": "object"
-      },
-      "annotations": {
-        "title": "help",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "cohesive_info",
-      "title": "info",
-      "description": "Show this server's identity and surface: server version, the authenticated user and organization, the API URL it talks to, mounted and available toolsets, and the tool count. Call it first when unsure who you are acting as.",
-      "inputSchema": {
-        "additionalProperties": false,
-        "properties": {},
-        "type": "object"
-      },
-      "annotations": {
-        "title": "info",
-        "readOnlyHint": true,
-        "destructiveHint": false,
-        "idempotentHint": true,
-        "openWorldHint": false
-      }
-    },
-    {
-      "name": "cohesive_notify",
+      "name": "notify_user",
       "title": "notify",
-      "description": "Send yourself a real in-app notification. Sends a notification to your own account — it lands in the notification bell in the Cohesive app, exactly like a platform agent's notification. Use it to flag that long-running work finished, that something needs a human decision, or to leave a marker a person will actually see.\n\nThe title is the headline (keep it short); body carries the detail. If notifications are not enabled for the organization the call fails saying so rather than silently doing nothing.",
+      "description": "Send a real in-app notification to the signed-in account. Sends a notification to the signed-in account — it lands in the notification bell in the Cohesive app, exactly like a platform agent's notification. Use it to flag that long-running work finished, that something needs a human decision, or to leave a marker a person will actually see.\n\nThe title is the headline (keep it short); body carries the detail. If notifications are not enabled for the organization the call fails saying so rather than silently doing nothing.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -2128,9 +2095,9 @@
       }
     },
     {
-      "name": "cohesive_org_list",
+      "name": "org_list",
       "title": "org list",
-      "description": "List the organizations you belong to.",
+      "description": "List the signed-in account's organizations.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {},
@@ -2145,9 +2112,9 @@
       }
     },
     {
-      "name": "cohesive_search",
+      "name": "search",
       "title": "search",
-      "description": "Search everything you can access. Searches names, file paths, and AI summaries across workspaces, canvases, chats, and files, grouped by resource type.",
+      "description": "Search everything the signed-in account can access. Searches names, file paths, and AI summaries across workspaces, canvases, chats, and files, grouped by resource type.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {
@@ -2188,7 +2155,46 @@
       }
     },
     {
-      "name": "cohesive_workspace_get",
+      "name": "server_info",
+      "title": "info",
+      "description": "Show the signed-in user and organization this server acts as, plus its version, the API URL it talks to, mounted and available toolsets, and the tool count. Call it first when unsure whose account the tools run under.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {},
+        "type": "object"
+      },
+      "annotations": {
+        "title": "info",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "tool_help",
+      "title": "help",
+      "description": "Return the full help for one tool, e.g. \"canvas_node_add_note\", for a family of them, e.g. \"canvas_node_*\", or \"\" for an overview of this server's whole surface. Use it to learn the arguments and rules behind a tool's description, which is trimmed to a budget.",
+      "inputSchema": {
+        "additionalProperties": false,
+        "properties": {
+          "tool": {
+            "description": "the tool to describe, e.g. \"canvas_node_add_note\", or a family, e.g. \"canvas_node_*\", for the tools under it; omit or \"\" for an overview of the whole surface",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "annotations": {
+        "title": "help",
+        "readOnlyHint": true,
+        "destructiveHint": false,
+        "idempotentHint": true,
+        "openWorldHint": false
+      }
+    },
+    {
+      "name": "workspace_get",
       "title": "workspace get",
       "description": "Show one workspace.",
       "inputSchema": {
@@ -2213,9 +2219,9 @@
       }
     },
     {
-      "name": "cohesive_workspace_list",
+      "name": "workspace_list",
       "title": "workspace list",
-      "description": "List the workspaces you can access.",
+      "description": "List accessible workspaces.",
       "inputSchema": {
         "additionalProperties": false,
         "properties": {},
