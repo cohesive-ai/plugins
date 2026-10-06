@@ -1,11 +1,11 @@
 # Cohesive
 
-A chat ends. The work doesn't. With Cohesive connected, what the agent makes lands in your [Cohesive](https://cohesive.ai) workspace as a canvas, a file, or an automation that runs on its own schedule. Open it later, edit it, and pick up where you left off.
+[Cohesive](https://cohesive.ai) is one place where your team and your agents do the work together. With it connected, what the agent makes in this chat lands in your Cohesive workspace: a canvas your team can see and build on, a file in the Library, or an Automation that runs on a schedule.
 
 ## What's inside
 
 - **The Cohesive MCP server** (`https://mcp.cohesive.ai/mcp`): tools for workspaces, canvases, files, and automations. You sign in to Cohesive the first time a tool runs, and every call runs as you, seeing only what you can.
-- **The `cohesive` skill**: how to combine those tools well, from building a readable canvas to choosing the right link to share. HTML block design guidance loads only when an agent builds a block.
+- **The `cohesive` skill**: which tools to use together and in what order, from laying out a canvas a person reads left to right to picking the link to share. HTML block design guidance loads only when an agent builds a block.
 
 ## Try it
 
