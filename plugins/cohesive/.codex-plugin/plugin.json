@@ -6,6 +6,8 @@
     "name": "Cohesive"
   },
   "license": "Apache-2.0",
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
   "interface": {
     "category": "Productivity",
     "developerName": "Venchrz, Inc.",
@@ -22,6 +24,12 @@
       "Show me my canvases.",
       "Turn this conversation into a canvas in my Cohesive workspace.",
       "Every Monday at 9am, summarize last week's new files in my workspace."
+    ],
+    "capabilities": [
+      "Build and edit canvases",
+      "Show canvases inline",
+      "Save and read files",
+      "Schedule automations"
     ]
   },
   "extensions": {
@@ -75,6 +83,9 @@
             }
           ]
         }
+      },
+      "publication": {
+        "release_notes": "Initial release: workspace, canvas, file, and automation tools, plus the cohesive skill."
       }
     }
   }
