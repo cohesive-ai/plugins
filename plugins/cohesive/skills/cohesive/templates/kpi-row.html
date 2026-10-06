@@ -1,0 +1,105 @@
+<!doctype html>
+<!--
+  KPI row — starting point for stat blocks.
+  Suggested placement: width 608, height 208 (three tiles). For four tiles use
+  width 800 and repeat(4, 1fr). Replace the labels, figures and deltas; keep
+  the structure, the tokens and the box-filling rules.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>KPI row</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 20px;
+        font-family: var(--font-sans);
+        background: var(--n-00);
+        color: var(--n-90);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      h1 {
+        flex: none;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .grid {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .kpi {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        padding: 16px;
+        border-radius: 12px;
+        background: var(--n-05);
+        border: 1px solid var(--n-10);
+      }
+      .kpi .label {
+        font-size: 12px;
+        color: var(--text-muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .kpi .value {
+        font-size: 30px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .kpi .delta {
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      /* Status carries a glyph as well as a color, so the signal survives for
+         a colorblind reader and in a greyscale export. */
+      .up {
+        color: var(--lc-active);
+      }
+      .down {
+        color: var(--lc-blocked);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 data-edit-id="title">Quarter to date</h1>
+
+    <div class="grid">
+      <div class="kpi">
+        <div class="label">Revenue</div>
+        <div class="value">$4.2M</div>
+        <div class="delta up">▲ 12% vs Q2</div>
+      </div>
+      <div class="kpi">
+        <div class="label">New accounts</div>
+        <div class="value">318</div>
+        <div class="delta up">▲ 4%</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Churn</div>
+        <div class="value">4.1%</div>
+        <div class="delta down">▼ 0.6pt</div>
+      </div>
+    </div>
+  </body>
+</html>

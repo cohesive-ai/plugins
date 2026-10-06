@@ -34,7 +34,7 @@ Call `canvas_view` directly, never from inside a code or script tool: a host onl
    | A short idea, a list, a takeaway | `canvas_node_add_note` (a titled sticky) |
    | A heading or caption | `canvas_node_add_label` |
    | A long document a person opens and reads | `canvas_node_add_document` (a page card) |
-   | A live HTML component drawn in a fixed box | `canvas_node_add_block` |
+   | A live HTML component drawn in a fixed box | `canvas_node_add_block` (read `references/html-blocks.md` first) |
    | An existing file or a record from another service | `canvas_node_add_entity` |
    | Structure: groups, flow, emphasis | `canvas_node_add_shape`, `canvas_edge_add` |
 
@@ -75,10 +75,6 @@ An automation is instructions an agent runs later, on a canvas or a workspace. P
 - "when I ask": neither; it runs only through `automation_run`.
 
 Write the instructions so they stand alone: the agent that runs them later has none of this conversation.
-
-## Handing work back
-
-When work finishes after the person has stopped watching, or needs their decision, `notify_user` puts a notification in their Cohesive bell. Use it for a result that matters, not as a progress log.
 
 ## When a call fails
 

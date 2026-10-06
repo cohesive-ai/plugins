@@ -1,0 +1,185 @@
+<!doctype html>
+<!--
+  Dashboard — starting point for multi-panel blocks.
+  Suggested placement: width 800, height 608.
+
+  Shows the three things a dashboard block needs: a header row that takes only
+  its natural height, a flexible middle that absorbs the remaining space
+  (min-height: 0 is what makes clipping happen inside the panel instead of
+  pushing the footer out of the box), and a hand-built SVG chart, since blocks
+  cannot load a charting library.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        overflow: hidden;
+        box-sizing: border-box;
+        padding: 24px;
+        font-family: var(--font-sans);
+        background: var(--n-00);
+        color: var(--n-90);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      header {
+        flex: none;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .sub {
+        margin: 0;
+        font-size: 13px;
+        color: var(--text-muted);
+      }
+
+      .tiles {
+        flex: none;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+      .tile {
+        padding: 12px;
+        border-radius: 10px;
+        background: var(--n-05);
+        border: 1px solid var(--n-10);
+      }
+      .tile .label {
+        font-size: 11px;
+        color: var(--text-muted);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .tile .value {
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      /* The flexible region. min-height: 0 lets it shrink instead of shoving
+         the footer past the bottom edge. */
+      .panel {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 16px;
+        border-radius: 12px;
+        background: var(--n-05);
+        border: 1px solid var(--n-10);
+      }
+      .panel h2 {
+        flex: none;
+        margin: 0;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+      .chart {
+        flex: 1;
+        min-height: 0;
+      }
+
+      footer {
+        flex: none;
+        display: flex;
+        gap: 16px;
+        font-size: 12px;
+        color: var(--text-muted);
+      }
+      .key {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 data-edit-id="title">Pipeline health</h1>
+      <p class="sub" data-edit-id="subtitle">Week 40 · updated daily</p>
+    </header>
+
+    <div class="tiles">
+      <div class="tile">
+        <div class="label">Open</div>
+        <div class="value">128</div>
+      </div>
+      <div class="tile">
+        <div class="label">Won</div>
+        <div class="value">42</div>
+      </div>
+      <div class="tile">
+        <div class="label">At risk</div>
+        <div class="value">9</div>
+      </div>
+      <div class="tile">
+        <div class="label">Avg days</div>
+        <div class="value">31</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Weekly close rate</h2>
+      <!-- preserveAspectRatio="none" lets the viewBox stretch to the panel;
+           non-scaling-stroke keeps the line weight even once it does. -->
+      <svg
+        class="chart"
+        viewBox="0 0 100 40"
+        preserveAspectRatio="none"
+        role="img"
+        aria-label="Close rate trending up over eight weeks"
+      >
+        <polyline
+          points="0,32 14,28 28,30 42,22 56,18 70,20 84,11 100,6"
+          fill="none"
+          stroke="var(--spectrum-blue)"
+          stroke-width="2"
+          vector-effect="non-scaling-stroke"
+        />
+        <polyline
+          points="0,36 14,35 28,33 42,34 56,30 70,31 84,27 100,25"
+          fill="none"
+          stroke="var(--spectrum-orange)"
+          stroke-width="2"
+          stroke-dasharray="4 3"
+          vector-effect="non-scaling-stroke"
+        />
+      </svg>
+    </div>
+
+    <footer>
+      <span class="key"
+        ><span class="swatch" style="background: var(--spectrum-blue)"></span
+        >This quarter</span
+      >
+      <span class="key"
+        ><span class="swatch" style="background: var(--spectrum-orange)"></span
+        >Last quarter</span
+      >
+    </footer>
+  </body>
+</html>
