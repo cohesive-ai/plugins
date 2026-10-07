@@ -35,35 +35,36 @@
   "extensions": {
     "com.openai": {
       "review": {
+        "demo_recording_url": "https://file.cohesive.ai/view/public/645a8355-928b-44e0-9c20-5bee8d3166b4",
         "test_cases": {
           "positive": [
             {
               "description": "Find a canvas by name and show it",
-              "prompt": "Show me my \"Product roadmap\" canvas.",
+              "prompt": "Show me my \"Product roadmap\" canvas in Cohesive.",
               "tools_triggered": "search, canvas_view",
               "expected_behavior": "Finds the Product roadmap canvas and shows it as an interactive board in the conversation."
             },
             {
               "description": "Build a canvas",
-              "prompt": "Create a canvas in my Demo workspace called \"Launch plan\" with three notes: goals, risks, and timeline.",
+              "prompt": "Create a Cohesive canvas in my Demo workspace called \"Launch plan\" with three notes: goals, risks, and timeline. Then show it to me.",
               "tools_triggered": "workspace_list, canvas_create, canvas_node_add_note, canvas_view",
               "expected_behavior": "Creates the Launch plan canvas with three laid-out notes and shows the finished board."
             },
             {
               "description": "Browse files",
-              "prompt": "What files are in my Demo workspace?",
+              "prompt": "Show me the files in my Cohesive Demo workspace.",
               "tools_triggered": "workspace_list, file_list",
               "expected_behavior": "Lists the workspace's files as a grid of previews; picking one opens it in place."
             },
             {
               "description": "Save work as a file",
-              "prompt": "Write a one-page launch checklist and save it to my Demo workspace as launch-checklist.md.",
+              "prompt": "Write a one-page launch checklist and save it to my Cohesive Demo workspace as launch-checklist.md.",
               "tools_triggered": "workspace_list, file_upload",
               "expected_behavior": "Saves launch-checklist.md in the Demo workspace and returns a link that opens it in Cohesive."
             },
             {
               "description": "Schedule an automation",
-              "prompt": "Every Monday at 9am Pacific, summarize the files added to my Demo workspace that week.",
+              "prompt": "Set up a Cohesive automation on my Demo workspace that runs every Monday at 9am Pacific and summarizes the files added that week.",
               "tools_triggered": "workspace_list, automation_create",
               "expected_behavior": "Creates a weekly automation on the Demo workspace with a Monday 09:00 America/Los_Angeles schedule and self-contained instructions."
             }
