@@ -1,6 +1,6 @@
 ---
 name: cohesive
-description: Work in a person's Cohesive workspace through the connected Cohesive tools — build and edit canvases, show a canvas in the conversation, save and read files, and set up automations that run on a schedule. Use when a request names a Cohesive canvas, board, workspace, Library file, or automation, or asks for work to be saved somewhere it outlasts the chat. Not for driving the `cohesive` command-line tool from a shell.
+description: Work in a person's Cohesive workspace through the Cohesive MCP tools — build and edit canvases, show a canvas in the conversation, save and read files, and set up automations that run on a schedule. Use when a request names a Cohesive canvas, board, workspace, Library file, or automation, or asks for work to be saved somewhere it outlasts the chat.
 ---
 
 # Working in Cohesive
